@@ -1,0 +1,108 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserEntityRole {
+  ADMINISTRATOR
+  DOCTOR
+  PATIENT
+}
+
+enum DoctorSpecialty {
+  CARDIOLOGY
+  DERMATOLOGY
+  ENDOCRINOLOGY
+  GASTROENTEROLOGY
+  HEMATOLOGY
+  NEUROLOGY
+  OBSTETRICS_GYNECOLOGY
+  ONCOLOGY
+  OPHTHALMOLOGY
+  ORTHOPEDICS
+  OTOLARYNGOLOGY
+  PEDIATRICS
+  PSYCHIATRY
+  RADIOLOGY
+  UROLOGY
+}
+
+enum Gender {
+  MALE
+  FEMALE
+}
+
+enum AppointmentStatus {
+  PENDING
+  CONFIRMED
+  CANCELED
+}
+
+model UserEntity {
+  id       Int            @id @default(autoincrement())
+  email    String         @unique
+  password String
+  role     UserEntityRole
+  doctor   DoctorEntity?
+  patient  PatientEntity?
+  avatar   String?
+}
+
+model DoctorEntity {
+  id            Int                   @id @default(autoincrement())
+  userId        Int?                  @unique
+  user          UserEntity?           @relation(fields: [userId], references: [id])
+  firstName     String
+  lastName      String
+  specialty     DoctorSpecialty
+  appointments  AppointmentEntity[]
+  medicalRecord MedicalRecordEntity[]
+}
+
+model PatientEntity {
+  id            Int                   @id @default(autoincrement())
+  userId        Int?                  @unique
+  user          UserEntity?           @relation(fields: [userId], references: [id])
+  firstName     String
+  lastName      String
+  gender        Gender
+  appointments  AppointmentEntity[]
+  medicalRecord MedicalRecordEntity[]
+}
+
+model AppointmentEntity {
+  id            Int                  @id @default(autoincrement())
+  doctorId      Int?
+  patientId     Int?
+  doctor        DoctorEntity?        @relation(fields: [doctorId], references: [id])
+  patient       PatientEntity?       @relation(fields: [patientId], references: [id])
+  status        AppointmentStatus
+  medicalRecord MedicalRecordEntity?
+}
+
+model MedicalRecordEntity {
+  id            Int                @id @default(autoincrement())
+  patientId     Int
+  patient       PatientEntity      @relation(fields: [patientId], references: [id])
+  doctorId      Int
+  doctor        DoctorEntity       @relation(fields: [doctorId], references: [id])
+  appointmentId Int                @unique
+  appointment   AppointmentEntity  @relation(fields: [appointmentId], references: [id])
+  diagnosis     String
+  medications   MedicationEntity[]
+}
+
+model MedicationEntity {
+  id              Int                  @id @default(autoincrement())
+  medicalRecordId Int?
+  medicalRecord   MedicalRecordEntity? @relation(fields: [medicalRecordId], references: [id])
+  name            String
+  description     String
+}
