@@ -84,6 +84,7 @@ model AppointmentEntity {
   doctor        DoctorEntity?        @relation(fields: [doctorId], references: [id])
   patient       PatientEntity?       @relation(fields: [patientId], references: [id])
   status        AppointmentStatus
+  date          DateTime
   medicalRecord MedicalRecordEntity?
 }
 
@@ -100,9 +101,8 @@ model MedicalRecordEntity {
 }
 
 model MedicationEntity {
-  id              Int                  @id @default(autoincrement())
-  medicalRecordId Int?
-  medicalRecord   MedicalRecordEntity? @relation(fields: [medicalRecordId], references: [id])
-  name            String
-  description     String
+  id             Int                   @id @default(autoincrement())
+  medicalRecords MedicalRecordEntity[]
+  name           String
+  description    String
 }

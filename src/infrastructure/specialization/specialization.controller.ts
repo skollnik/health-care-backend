@@ -12,14 +12,14 @@ import { FindAllPatientsQuery } from 'src/application/specialization/queries/fin
 export class SpecializationController {
   constructor(private readonly queryBus: QueryBus) {}
 
-  //@UseGuards(JwtGuard)
+  @UseGuards(JwtGuard)
   @Get('doctors')
   async getDoctors() {
     const doctors = await this.queryBus.execute(new FindAllDoctorsQuery());
     return doctors.map((doctor) => new DoctorPresenter(doctor));
   }
 
-  //@UseGuards(JwtGuard)
+  @UseGuards(JwtGuard)
   @Get('patients')
   async getPatients() {
     const patients = await this.queryBus.execute(new FindAllPatientsQuery());

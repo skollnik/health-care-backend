@@ -18,8 +18,14 @@ export class CreateAppointmentCommandHandler
     doctorId,
     patientId,
     status,
+    date,
   }: CreateAppointmentCommand): Promise<any> {
-    const appointment = Appointment.create({ doctorId, patientId, status });
+    const appointment = Appointment.create({
+      doctorId,
+      patientId,
+      status,
+      date,
+    });
     const createdAppointment = this.eventBus.mergeObjectContext(
       await this.appointmentRepository.create(appointment),
     );

@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber } from 'class-validator';
+import { IsDate, IsNotEmpty, IsNumber } from 'class-validator';
 import { AppointmentStatus } from 'src/domain/appointment/appointment-status.enum';
 
 export class NewAppointmentDto {
@@ -12,4 +12,8 @@ export class NewAppointmentDto {
 
   @IsNotEmpty()
   status: AppointmentStatus;
+
+  @IsDate()
+  @IsNotEmpty()
+  date: Date;
 }

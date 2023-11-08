@@ -25,7 +25,7 @@ export class RegisterDoctorCommandHandler
     lastName,
     specialty,
   }: RegisterDoctorCommand): Promise<User> {
-    const userExist = this.userRepository.findByEmail(email);
+    const userExist = await this.userRepository.findByEmail(email);
     if (userExist) throw new EmailAlreadyTakenException();
     const hashedPassword = await this.hashingService.hashPassword(password);
     const doctor = Doctor.create({ firstName, lastName, specialty });
@@ -40,6 +40,7 @@ export class RegisterDoctorCommandHandler
       await this.userRepository.createDoctor(user),
     );
 
+    createdUser.createAccount();
     createdUser.commit();
     return createdUser;
   }

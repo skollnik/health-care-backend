@@ -29,4 +29,19 @@ export class MedicalRecordRepository implements IMedicalRecordRepository {
     });
     return this.mapperFactory.fromEntity(saved);
   }
+
+  async findById(medicalRecordId: number): Promise<MedicalRecord> {
+    const medicalRecordEntity =
+      await this.prisma.medicalRecordEntity.findUnique({
+        where: { id: medicalRecordId },
+      });
+    if (!medicalRecordEntity) return null;
+    return this.mapperFactory.fromEntity(medicalRecordEntity);
+  }
+
+  async delete(medicalRecordId: number): Promise<void> {
+    await this.prisma.medicalRecordEntity.delete({
+      where: { id: medicalRecordId },
+    });
+  }
 }

@@ -22,6 +22,7 @@ import { LoginCommandHandler } from 'src/application/auth/commands/login/login-c
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AccountCreatedEventHandler } from 'src/application/auth/events/account-created-event.handler';
 import { SharedModule } from '../shared/shared.module';
+import { JwtStrategy } from './strategies/jwt-strategy';
 
 const commandHandlers = [
   CreateUserCommandHandler,
@@ -45,6 +46,7 @@ const providers: Provider[] = [
     provide: JWT_SERVICE,
     useClass: JWTService,
   },
+  JwtStrategy,
   UserEntityMapperFactory,
 ];
 
@@ -67,6 +69,6 @@ const providers: Provider[] = [
   ],
   controllers: [AuthController],
   providers: [...commandHandlers, ...providers, ...eventHandlers],
-  exports: [USER_REPOSITORY],
+  exports: [USER_REPOSITORY, UserEntityMapperFactory],
 })
 export class AuthModule {}

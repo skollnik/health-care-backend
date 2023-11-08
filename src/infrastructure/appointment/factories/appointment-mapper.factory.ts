@@ -57,6 +57,7 @@ export class AppointmentMapperFactory
     doctorId,
     patientId,
     status,
+    date,
     doctor,
     patient,
     medicalRecord,
@@ -97,6 +98,7 @@ export class AppointmentMapperFactory
       doctor: doctorMapped,
       patient: patientMapped,
       status: this.appointmentStatus[status],
+      date,
       medicalRecord: medicalRecordMapped,
     });
   }

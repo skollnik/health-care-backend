@@ -29,7 +29,7 @@ export class MedicationRepository implements IMedicationRepository {
     return this.medicationMapperFactory.fromEntity(medicationEntity);
   }
 
-  async deleteMedication(medicationId: number): Promise<void> {
+  async delete(medicationId: number): Promise<void> {
     await this.prisma.medicationEntity.delete({
       where: { id: medicationId },
     });

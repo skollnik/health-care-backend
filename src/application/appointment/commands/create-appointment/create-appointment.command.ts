@@ -5,5 +5,6 @@ export class CreateAppointmentCommand {
     public readonly doctorId: number,
     public readonly patientId: number,
     public readonly status: AppointmentStatus,
+    public readonly date: Date,
   ) {}
 }

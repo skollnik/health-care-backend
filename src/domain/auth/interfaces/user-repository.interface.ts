@@ -6,4 +6,5 @@ export interface IUserRepository {
   createPatient(user: User): Promise<User>;
   findByEmail(email: string): Promise<User>;
   findById(userId: number): Promise<User>;
+  findByIdPopulated(userId: number): Promise<User>;
 }

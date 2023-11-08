@@ -74,4 +74,15 @@ export class UserRepository implements IUserRepository {
     if (!userEntity) return null;
     return this.mapperFactory.fromEntity(userEntity);
   }
+
+  async findByIdPopulated(userId: number): Promise<User> {
+    const userEntity = await this.prisma.userEntity.findUnique({
+      where: { id: userId },
+      include: {
+        doctor: true,
+        patient: true,
+      },
+    });
+    return this.mapperFactory.fromEntity(userEntity);
+  }
 }

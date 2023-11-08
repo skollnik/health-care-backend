@@ -8,8 +8,16 @@ import { CqrsModule } from '@nestjs/cqrs';
 import { SharedModule } from '../shared/shared.module';
 import { MedicationController } from './medication.controller';
 import { CreateMedicationCommandHandler } from 'src/application/medicaton/commands/create-medication/create-medication-command.handler';
+import { DeleteMedicationCommandHandler } from 'src/application/medicaton/commands/delete-medication/delete-medication-command.handler';
+import { USER_REPOSITORY } from 'src/application/auth/auth.constants';
+import { UserRepository } from '../auth/repositories/user.repository';
+import { UserEntityMapperFactory } from '../auth/factories/user-mapper.factory';
+import { AuthModule } from '../auth/auth.module';
 
-const commmandHandler = [CreateMedicationCommandHandler];
+const commmandHandler = [
+  CreateMedicationCommandHandler,
+  DeleteMedicationCommandHandler,
+];
 
 const providers: Provider[] = [
   {
@@ -20,7 +28,7 @@ const providers: Provider[] = [
 ];
 
 @Module({
-  imports: [PrismaModule, CqrsModule, SharedModule],
+  imports: [PrismaModule, CqrsModule, SharedModule, AuthModule],
   controllers: [MedicationController],
   providers: [...commmandHandler, ...providers],
   exports: [MEDICATION_REPOSITORY],

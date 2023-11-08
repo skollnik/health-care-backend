@@ -12,7 +12,8 @@ export class Appointment extends AggregateRoot {
     public readonly doctor: Doctor,
     public readonly patient: Patient,
     public readonly status: AppointmentStatus,
-    public readonly medicalRecord?: Partial<MedicalRecord>,
+    public readonly date: Date,
+    public readonly medicalRecord?: MedicalRecord,
   ) {
     super();
   }
@@ -24,6 +25,7 @@ export class Appointment extends AggregateRoot {
     doctor,
     patient,
     status,
+    date,
     medicalRecord,
   }: Partial<Appointment>) {
     return new Appointment(
@@ -33,6 +35,7 @@ export class Appointment extends AggregateRoot {
       doctor,
       patient,
       status,
+      date,
       medicalRecord,
     );
   }

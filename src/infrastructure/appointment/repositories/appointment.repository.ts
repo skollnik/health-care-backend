@@ -14,12 +14,14 @@ export class AppointmentRepository implements IAppointmentRepository {
     doctorId,
     patientId,
     status,
+    date,
   }: Appointment): Promise<Appointment> {
     const saved = await this.prisma.appointmentEntity.create({
       data: {
         doctorId,
         patientId,
         status,
+        date,
       },
       include: {
         doctor: {
@@ -35,5 +37,11 @@ export class AppointmentRepository implements IAppointmentRepository {
       },
     });
     return this.appointmentMapperFactory.fromEntity(saved);
+  }
+
+  async delete(appointmentId: number): Promise<void> {
+    await this.prisma.appointmentEntity.delete({
+      where: { id: appointmentId },
+    });
   }
 }

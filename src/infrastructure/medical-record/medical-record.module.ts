@@ -8,8 +8,12 @@ import { CqrsModule } from '@nestjs/cqrs';
 import { SharedModule } from '../shared/shared.module';
 import { MedicalRecordController } from './medical-record.controller';
 import { CreateMedicalRecordCommandHandler } from 'src/application/medical-record/commands/create-medical-record/create-medical-record-command.handler';
+import { DeleteMedicalRecordCommandHandler } from 'src/application/medical-record/commands/delete-medical-record/delete-medical-record-command.handler';
 
-const commandHandlers = [CreateMedicalRecordCommandHandler];
+const commandHandlers = [
+  CreateMedicalRecordCommandHandler,
+  DeleteMedicalRecordCommandHandler,
+];
 
 const providers: Provider[] = [
   {

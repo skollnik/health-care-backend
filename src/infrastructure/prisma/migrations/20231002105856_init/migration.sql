@@ -59,11 +59,19 @@ CREATE TABLE `MedicalRecordEntity` (
 -- CreateTable
 CREATE TABLE `MedicationEntity` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `medicalRecordId` INTEGER NULL,
     `name` VARCHAR(191) NOT NULL,
     `description` VARCHAR(191) NOT NULL,
 
     PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `_MedicalRecordEntityToMedicationEntity` (
+    `A` INTEGER NOT NULL,
+    `B` INTEGER NOT NULL,
+
+    UNIQUE INDEX `_MedicalRecordEntityToMedicationEntity_AB_unique`(`A`, `B`),
+    INDEX `_MedicalRecordEntityToMedicationEntity_B_index`(`B`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- AddForeignKey
@@ -88,4 +96,7 @@ ALTER TABLE `MedicalRecordEntity` ADD CONSTRAINT `MedicalRecordEntity_doctorId_f
 ALTER TABLE `MedicalRecordEntity` ADD CONSTRAINT `MedicalRecordEntity_appointmentId_fkey` FOREIGN KEY (`appointmentId`) REFERENCES `AppointmentEntity`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `MedicationEntity` ADD CONSTRAINT `MedicationEntity_medicalRecordId_fkey` FOREIGN KEY (`medicalRecordId`) REFERENCES `MedicalRecordEntity`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE `_MedicalRecordEntityToMedicationEntity` ADD CONSTRAINT `_MedicalRecordEntityToMedicationEntity_A_fkey` FOREIGN KEY (`A`) REFERENCES `MedicalRecordEntity`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `_MedicalRecordEntityToMedicationEntity` ADD CONSTRAINT `_MedicalRecordEntityToMedicationEntity_B_fkey` FOREIGN KEY (`B`) REFERENCES `MedicationEntity`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;

@@ -9,13 +9,13 @@ import { AppointmentCreatedPresenter } from './presenters/appointment-created.pr
 export class AppointmentController {
   constructor(private readonly commandBus: CommandBus) {}
 
-  // @UseGuards(JwtGuard)
+  @UseGuards(JwtGuard)
   @Post()
   async newAppointment(
-    @Body() { doctorId, patientId, status }: NewAppointmentDto,
+    @Body() { doctorId, patientId, status, date }: NewAppointmentDto,
   ) {
     const appointment = await this.commandBus.execute(
-      new CreateAppointmentCommand(doctorId, patientId, status),
+      new CreateAppointmentCommand(doctorId, patientId, status, date),
     );
     return new AppointmentCreatedPresenter(appointment);
   }
