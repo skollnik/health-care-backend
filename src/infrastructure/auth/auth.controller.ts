@@ -39,6 +39,8 @@ export class AuthController {
     return new LoggedInPresenter(token);
   }
 
+  @Roles(UserRole.ADMINISTRATOR)
+  @UseGuards(JwtGuard, RolesGuard)
   @Post('/register/doctor')
   async registerDoctor(
     @Body()
@@ -57,6 +59,8 @@ export class AuthController {
     return new UserRegisteredPresenter(user);
   }
 
+  @Roles(UserRole.ADMINISTRATOR)
+  @UseGuards(JwtGuard, RolesGuard)
   @Post('/register/patient')
   async registerPatient(
     @Body()

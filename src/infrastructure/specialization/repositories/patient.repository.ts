@@ -15,11 +15,13 @@ export class PatientRepository implements IPatientRepository {
     const patient = await this.prisma.patientEntity.findUnique({
       where: { id },
     });
+
     return this.patientMapperFactory.fromEntity(patient);
   }
 
   async findAll(): Promise<Patient[]> {
     const patients = await this.prisma.patientEntity.findMany({});
+    
     return patients.map((patient) =>
       this.patientMapperFactory.fromEntity(patient),
     );

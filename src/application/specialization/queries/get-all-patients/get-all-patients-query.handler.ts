@@ -1,12 +1,12 @@
 import { Inject } from '@nestjs/common';
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
-import { FindAllPatientsQuery } from './find-all-patients.query';
+import { GetAllPatientsQuery } from './get-all-patients.query';
 import { PATIENT_REPOSITORY } from 'src/domain/specialization/specialization.constants';
 import { IPatientRepository } from 'src/domain/specialization/interfaces/patient-repository.interface';
 
-@QueryHandler(FindAllPatientsQuery)
-export class FindAllPatientsQueryHandler
-  implements IQueryHandler<FindAllPatientsQuery>
+@QueryHandler(GetAllPatientsQuery)
+export class GetAllPatientsQueryHandler
+  implements IQueryHandler<GetAllPatientsQuery>
 {
   constructor(
     @Inject(PATIENT_REPOSITORY)

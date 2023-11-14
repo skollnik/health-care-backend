@@ -1,6 +1,6 @@
 import { Controller, Post, Delete, Body, UseGuards } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
-import { NewMedicalRecordDto } from './dtos/medical-record.dto';
+import { NewMedicalRecordDto } from './dtos/new-medical-record.dto';
 import { MedicalRecordCreatedPresenter } from './presenters/medical-record-created.presenter';
 import { CreateMedicalRecordCommand } from 'src/application/medical-record/commands/create-medical-record/create-medical-record.command';
 import { JwtGuard } from '../auth/guards/jwt.guard';
@@ -39,7 +39,7 @@ export class MedicalRecordController {
     return new MedicalRecordCreatedPresenter(medicalRecord);
   }
 
-  @Roles(UserRole.DOCTOR, UserRole.ADMINISTRATOR)
+  @Roles(UserRole.ADMINISTRATOR, UserRole.DOCTOR)
   @UseGuards(JwtGuard, RolesGuard)
   @Delete()
   async deleteMedicalRecordCommand(

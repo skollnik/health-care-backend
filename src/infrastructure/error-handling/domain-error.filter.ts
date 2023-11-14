@@ -9,7 +9,8 @@ import { BaseException } from 'src/application/shared/base.exception';
 import { EmailAlreadyTakenException } from 'src/domain/auth/exceptions/email-already-taken.exception';
 import { InvalidCredentialsException } from 'src/domain/auth/exceptions/invalid-credentials.exception';
 import { UserDoesntExistException } from 'src/domain/auth/exceptions/user-doesnt-exist.exception';
-import { NotAllowedToDeleteMedication } from 'src/domain/medication/exceptions/not-allowed-to-delete-medication.exception';
+import { MedicationNotFoundException } from 'src/domain/medication/exceptions/medication-not-found.exception';
+import { NotAllowedToDeleteMedicationException } from 'src/domain/medication/exceptions/not-allowed-to-delete-medication.exception';
 
 @Catch(BaseException)
 export class DomainErrorFilter implements ExceptionFilter<BaseException> {
@@ -27,8 +28,11 @@ export class DomainErrorFilter implements ExceptionFilter<BaseException> {
     if (exception instanceof UserDoesntExistException)
       return this.sendErrorResponse(resp, HttpStatus.NOT_FOUND, message);
 
-    if (exception instanceof NotAllowedToDeleteMedication)
+    if (exception instanceof NotAllowedToDeleteMedicationException)
       return this.sendErrorResponse(resp, HttpStatus.FORBIDDEN, message);
+
+    if (exception instanceof MedicationNotFoundException)
+      return this.sendErrorResponse(resp, HttpStatus.NOT_FOUND, message);
   }
 
   private sendErrorResponse(resp: Response, status: number, message: string) {

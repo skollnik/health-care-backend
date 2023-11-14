@@ -36,6 +36,7 @@ export class AppointmentRepository implements IAppointmentRepository {
         },
       },
     });
+    
     return this.appointmentMapperFactory.fromEntity(saved);
   }
 

@@ -18,6 +18,7 @@ export class MedicationRepository implements IMedicationRepository {
         description,
       },
     });
+    
     return this.medicationMapperFactory.fromEntity(saved);
   }
 
@@ -26,7 +27,28 @@ export class MedicationRepository implements IMedicationRepository {
       where: { id: medicationId },
     });
     if (!medicationEntity) return null;
+
     return this.medicationMapperFactory.fromEntity(medicationEntity);
+  }
+
+  async findAll(): Promise<Medication[]> {
+    const medications = await this.prisma.medicationEntity.findMany({});
+
+    return medications.map((medication) =>
+      this.medicationMapperFactory.fromEntity(medication),
+    );
+  }
+
+  async update({ id, name, description }: Medication): Promise<Medication> {
+    const updated = await this.prisma.medicationEntity.update({
+      where: { id },
+      data: {
+        name,
+        description,
+      },
+    });
+
+    return this.medicationMapperFactory.fromEntity(updated);
   }
 
   async delete(medicationId: number): Promise<void> {

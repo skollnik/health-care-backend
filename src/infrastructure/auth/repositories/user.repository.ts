@@ -20,6 +20,7 @@ export class UserRepository implements IUserRepository {
         role: user.role as UserEntityRole,
       },
     });
+
     return this.mapperFactory.fromEntity(userEntity);
   }
 
@@ -38,6 +39,7 @@ export class UserRepository implements IUserRepository {
         },
       },
     });
+
     return this.mapperFactory.fromEntity(user);
   }
 
@@ -56,6 +58,7 @@ export class UserRepository implements IUserRepository {
         },
       },
     });
+
     return this.mapperFactory.fromEntity(user);
   }
 
@@ -64,6 +67,7 @@ export class UserRepository implements IUserRepository {
       where: { email },
     });
     if (!userEntity) return null;
+
     return this.mapperFactory.fromEntity(userEntity);
   }
 
@@ -72,6 +76,7 @@ export class UserRepository implements IUserRepository {
       where: { id: userId },
     });
     if (!userEntity) return null;
+    
     return this.mapperFactory.fromEntity(userEntity);
   }
 
@@ -83,6 +88,7 @@ export class UserRepository implements IUserRepository {
         patient: true,
       },
     });
+
     return this.mapperFactory.fromEntity(userEntity);
   }
 }

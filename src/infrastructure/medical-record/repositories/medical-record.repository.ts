@@ -27,6 +27,7 @@ export class MedicalRecordRepository implements IMedicalRecordRepository {
         medications: { create: medications },
       },
     });
+    
     return this.mapperFactory.fromEntity(saved);
   }
 
@@ -36,6 +37,7 @@ export class MedicalRecordRepository implements IMedicalRecordRepository {
         where: { id: medicalRecordId },
       });
     if (!medicalRecordEntity) return null;
+
     return this.mapperFactory.fromEntity(medicalRecordEntity);
   }
 
