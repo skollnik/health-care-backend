@@ -83,6 +83,7 @@ model AppointmentEntity {
   patientId     Int?
   doctor        DoctorEntity?        @relation(fields: [doctorId], references: [id])
   patient       PatientEntity?       @relation(fields: [patientId], references: [id])
+  description   String
   status        AppointmentStatus
   date          DateTime
   medicalRecord MedicalRecordEntity?

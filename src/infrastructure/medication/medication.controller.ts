@@ -60,7 +60,7 @@ export class MedicationController {
     const medication = await this.queryBus.execute(
       new GetMedicationQuery(medicationId),
     );
-    return medication;
+    return new MedicationPresenter(medication);
   }
 
   @Roles(UserRole.ADMINISTRATOR, UserRole.DOCTOR)

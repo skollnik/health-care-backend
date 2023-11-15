@@ -14,8 +14,11 @@ import { PatientMapperFactory } from './factories/patient-mapper.factory';
 import { PatientRepository } from './repositories/patient.repository';
 import { GetAllDoctorsQueryHandler } from 'src/application/specialization/queries/get-all-doctors/get-all-doctors-query.handler';
 import { GetAllPatientsQueryHandler } from 'src/application/specialization/queries/get-all-patients/get-all-patients-query.handler';
-import { GetAllDoctorsQuery } from 'src/application/specialization/queries/get-all-doctors/get-all-doctors.query';
-import { GetAllPatientsQuery } from 'src/application/specialization/queries/get-all-patients/get-all-patients.query';
+
+const queries: Provider[] = [
+  GetAllDoctorsQueryHandler,
+  GetAllPatientsQueryHandler,
+];
 
 const providers: Provider[] = [
   {
@@ -30,17 +33,10 @@ const providers: Provider[] = [
   PatientMapperFactory,
 ];
 
-const queries: Provider[] = [
-  GetAllDoctorsQuery,
-  GetAllDoctorsQueryHandler,
-  GetAllPatientsQuery,
-  GetAllPatientsQueryHandler,
-];
-
 @Module({
   imports: [PrismaModule, CqrsModule, SharedModule],
   controllers: [SpecializationController],
-  providers: [...providers, ...queries],
+  providers: [...queries, ...providers],
   exports: [DOCTOR_REPOSITORY, PATIENT_REPOSITORY],
 })
 export class SpecializationModule {}

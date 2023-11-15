@@ -8,8 +8,11 @@ import { CreateAppointmentCommandHandler } from 'src/application/appointment/com
 import { APPOINTMENT_REPOSITORY } from 'src/application/appointment/appointment.constants';
 import { AppointmentRepository } from './repositories/appointment.repository';
 import { AppointmentMapperFactory } from './factories/appointment-mapper.factory';
+import { GetAllAppointmentsQueryHandler } from 'src/application/appointment/queries/get-all-appointments/get-all-appointments-query.handler';
 
 const commandHandlers = [CreateAppointmentCommandHandler];
+
+const queries: Provider[] = [GetAllAppointmentsQueryHandler];
 
 const providers: Provider[] = [
   {
@@ -22,7 +25,7 @@ const providers: Provider[] = [
 @Module({
   imports: [PrismaModule, CqrsModule, SharedModule],
   controllers: [AppointmentController],
-  providers: [...commandHandlers, ...providers],
+  providers: [...commandHandlers, ...queries, ...providers],
   exports: [APPOINTMENT_REPOSITORY],
 })
 export class AppointmentModule {}

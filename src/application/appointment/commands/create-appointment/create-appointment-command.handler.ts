@@ -17,12 +17,14 @@ export class CreateAppointmentCommandHandler
   async execute({
     doctorId,
     patientId,
+    description,
     status,
     date,
   }: CreateAppointmentCommand): Promise<any> {
     const appointment = Appointment.create({
       doctorId,
       patientId,
+      description,
       status,
       date,
     });

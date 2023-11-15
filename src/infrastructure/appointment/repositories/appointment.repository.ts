@@ -13,6 +13,7 @@ export class AppointmentRepository implements IAppointmentRepository {
   async create({
     doctorId,
     patientId,
+    description,
     status,
     date,
   }: Appointment): Promise<Appointment> {
@@ -20,6 +21,7 @@ export class AppointmentRepository implements IAppointmentRepository {
       data: {
         doctorId,
         patientId,
+        description,
         status,
         date,
       },
@@ -36,8 +38,21 @@ export class AppointmentRepository implements IAppointmentRepository {
         },
       },
     });
-    
+
     return this.appointmentMapperFactory.fromEntity(saved);
+  }
+
+  async findAll(): Promise<Appointment[]> {
+    const appointments = await this.prisma.appointmentEntity.findMany({
+      include: {
+        doctor: true,
+        patient: true,
+      },
+    });
+
+    return appointments.map((appointment) =>
+      this.appointmentMapperFactory.fromEntity(appointment),
+    );
   }
 
   async delete(appointmentId: number): Promise<void> {

@@ -68,7 +68,7 @@ const providers: Provider[] = [
     }),
   ],
   controllers: [AuthController],
-  providers: [...commandHandlers, ...providers, ...eventHandlers],
+  providers: [...commandHandlers, ...eventHandlers, ...providers],
   exports: [USER_REPOSITORY, UserEntityMapperFactory],
 })
 export class AuthModule {}

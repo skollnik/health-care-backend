@@ -10,16 +10,19 @@ import { MedicationController } from './medication.controller';
 import { CreateMedicationCommandHandler } from 'src/application/medicaton/commands/create-medication/create-medication-command.handler';
 import { DeleteMedicationCommandHandler } from 'src/application/medicaton/commands/delete-medication/delete-medication-command.handler';
 import { AuthModule } from '../auth/auth.module';
-import { GetAllMedicationsQuery } from 'src/application/medicaton/queries/get-all-medications/get-all-medications.query';
 import { GetAllMedicationsQueryHandler } from 'src/application/medicaton/queries/get-all-medications/get-all-medications-query.handler';
 import { EditMedicationCommandHandler } from 'src/application/medicaton/commands/edit-medication/edit-medication-command.handler';
-import { GetMedicationQuery } from 'src/application/medicaton/queries/get-medication/get-medication.query';
 import { GetMedicationQueryHandler } from 'src/application/medicaton/queries/get-medication/get-medication-query.handler';
 
 const commmandHandler = [
   EditMedicationCommandHandler,
   CreateMedicationCommandHandler,
   DeleteMedicationCommandHandler,
+];
+
+const queries: Provider[] = [
+  GetMedicationQueryHandler,
+  GetAllMedicationsQueryHandler,
 ];
 
 const providers: Provider[] = [
@@ -30,17 +33,10 @@ const providers: Provider[] = [
   MedicationMapperFactory,
 ];
 
-const queries: Provider[] = [
-  GetMedicationQuery,
-  GetMedicationQueryHandler,
-  GetAllMedicationsQuery,
-  GetAllMedicationsQueryHandler,
-];
-
 @Module({
   imports: [PrismaModule, CqrsModule, SharedModule, AuthModule],
   controllers: [MedicationController],
-  providers: [...commmandHandler, ...providers, ...queries],
+  providers: [...commmandHandler, ...queries, ...providers],
   exports: [MEDICATION_REPOSITORY],
 })
 export class MedicationModule {}
