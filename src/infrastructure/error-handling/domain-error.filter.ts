@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { Response } from 'express';
 import { BaseException } from 'src/application/shared/base.exception';
+import { AppointmentNotFoundException } from 'src/domain/appointment/exceptions/appointment-not-found.exception';
 import { EmailAlreadyTakenException } from 'src/domain/auth/exceptions/email-already-taken.exception';
 import { InvalidCredentialsException } from 'src/domain/auth/exceptions/invalid-credentials.exception';
 import { UserDoesntExistException } from 'src/domain/auth/exceptions/user-doesnt-exist.exception';
@@ -32,6 +33,9 @@ export class DomainErrorFilter implements ExceptionFilter<BaseException> {
       return this.sendErrorResponse(resp, HttpStatus.FORBIDDEN, message);
 
     if (exception instanceof MedicationNotFoundException)
+      return this.sendErrorResponse(resp, HttpStatus.NOT_FOUND, message);
+
+    if (exception instanceof AppointmentNotFoundException)
       return this.sendErrorResponse(resp, HttpStatus.NOT_FOUND, message);
   }
 

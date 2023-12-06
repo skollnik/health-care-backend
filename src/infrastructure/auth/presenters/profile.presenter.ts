@@ -12,7 +12,7 @@ export class ProfilePresenter {
     this.email = email;
     this.role = role.toString();
     if (role === UserRole.ADMINISTRATOR)
-      this.setFirstNameAndLastName('admin', 'admin');
+      this.setFirstNameAndLastName('Admin', 'Admin');
     if (role === UserRole.DOCTOR)
       this.setFirstNameAndLastName(doctor.firstName, doctor.lastName);
     if (role === UserRole.PATIENT)

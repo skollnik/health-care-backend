@@ -3,6 +3,7 @@ import { AppointmentStatus } from '../appointment-status.enum';
 import { Doctor } from 'src/domain/specialization/model/doctor';
 import { Patient } from 'src/domain/specialization/model/patient';
 import { AggregateRoot } from '@nestjs/cqrs';
+import { AppointmentNotFoundException } from '../exceptions/appointment-not-found.exception';
 
 export class Appointment extends AggregateRoot {
   constructor(
@@ -17,6 +18,10 @@ export class Appointment extends AggregateRoot {
     public readonly medicalRecord?: MedicalRecord,
   ) {
     super();
+  }
+
+  static throwIfNull(appointment: Appointment) {
+    if (!appointment) throw new AppointmentNotFoundException();
   }
 
   static create({

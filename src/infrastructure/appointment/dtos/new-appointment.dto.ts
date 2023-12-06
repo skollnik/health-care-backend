@@ -6,16 +6,9 @@ export class NewAppointmentDto {
   @IsNotEmpty()
   doctorId: number;
 
-  @IsNumber()
-  @IsNotEmpty()
-  patientId: number;
-
   @IsString()
   @IsNotEmpty()
   description: string;
-
-  @IsNotEmpty()
-  status: AppointmentStatus;
 
   @IsDate()
   @IsNotEmpty()

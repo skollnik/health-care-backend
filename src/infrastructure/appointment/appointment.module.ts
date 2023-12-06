@@ -9,10 +9,20 @@ import { APPOINTMENT_REPOSITORY } from 'src/application/appointment/appointment.
 import { AppointmentRepository } from './repositories/appointment.repository';
 import { AppointmentMapperFactory } from './factories/appointment-mapper.factory';
 import { GetAllAppointmentsQueryHandler } from 'src/application/appointment/queries/get-all-appointments/get-all-appointments-query.handler';
+import { GetAllAppointmentsByDoctorIdHandler } from 'src/application/appointment/queries/get-all-appointments-by-doctor-id/get-all-appointments-by-doctor-id-query.handler';
+import { GetAllAppointmentsByPatientIdHandler } from 'src/application/appointment/queries/get-all-appointments-by-patient-id/get-all-appointments-by-patient-id.query';
+import { EditAppointmentCommandHandler } from 'src/application/appointment/commands/edit-appointment/edit-appointment-command.handler';
 
-const commandHandlers = [CreateAppointmentCommandHandler];
+const commandHandlers = [
+  CreateAppointmentCommandHandler,
+  EditAppointmentCommandHandler,
+];
 
-const queries: Provider[] = [GetAllAppointmentsQueryHandler];
+const queries: Provider[] = [
+  GetAllAppointmentsQueryHandler,
+  GetAllAppointmentsByDoctorIdHandler,
+  GetAllAppointmentsByPatientIdHandler,
+];
 
 const providers: Provider[] = [
   {
