@@ -2,12 +2,14 @@ import {
   AppointmentEntity,
   DoctorEntity,
   MedicalRecordEntity,
+  MedicationEntity,
   PatientEntity,
   UserEntity,
 } from '@prisma/client';
 import { AppointmentStatus } from 'src/domain/appointment/appointment-status.enum';
 import { Appointment } from 'src/domain/appointment/model/appointment';
 import { MedicalRecord } from 'src/domain/medical-record/model/medical-record';
+import { Medication } from 'src/domain/medication/model/medication';
 import { DoctorSpecialty } from 'src/domain/specialization/doctor-specialty.enum';
 import { Gender } from 'src/domain/specialization/gender.enum';
 import { Doctor } from 'src/domain/specialization/model/doctor';
@@ -17,7 +19,7 @@ import { IEntityMapperFactory } from 'src/infrastructure/shared/factories/entity
 type AppointmentEntityComplex = AppointmentEntity & {
   doctor?: DoctorEntity & { user?: UserEntity };
   patient?: PatientEntity & { user?: UserEntity };
-  medicalRecord?: MedicalRecordEntity;
+  medicalRecord?: MedicalRecordEntity & { medications: MedicationEntity[] };
 };
 
 export class AppointmentMapperFactory
@@ -82,13 +84,22 @@ export class AppointmentMapperFactory
         })
       : null;
 
+    const medicationsMapped = medicalRecord?.medications
+      ? medicalRecord.medications.map((medication: MedicationEntity) =>
+          Medication.create({
+            id: medication.id,
+            name: medication.name,
+            description: medication.description,
+          }),
+        )
+      : [];
+
     const medicalRecordMapped = medicalRecord
       ? MedicalRecord.create({
           id: medicalRecord.id,
           appointmentId: id,
-          doctorId,
-          patientId,
           diagnosis: medicalRecord.diagnosis,
+          medications: medicationsMapped,
         })
       : null;
 

@@ -56,25 +56,23 @@ model UserEntity {
 }
 
 model DoctorEntity {
-  id            Int                   @id @default(autoincrement())
-  userId        Int?                  @unique
-  user          UserEntity?           @relation(fields: [userId], references: [id])
-  firstName     String
-  lastName      String
-  specialty     DoctorSpecialty
-  appointments  AppointmentEntity[]
-  medicalRecord MedicalRecordEntity[]
+  id           Int                 @id @default(autoincrement())
+  userId       Int?                @unique
+  user         UserEntity?         @relation(fields: [userId], references: [id])
+  firstName    String
+  lastName     String
+  specialty    DoctorSpecialty
+  appointments AppointmentEntity[]
 }
 
 model PatientEntity {
-  id            Int                   @id @default(autoincrement())
-  userId        Int?                  @unique
-  user          UserEntity?           @relation(fields: [userId], references: [id])
-  firstName     String
-  lastName      String
-  gender        Gender
-  appointments  AppointmentEntity[]
-  medicalRecord MedicalRecordEntity[]
+  id           Int                 @id @default(autoincrement())
+  userId       Int?                @unique
+  user         UserEntity?         @relation(fields: [userId], references: [id])
+  firstName    String
+  lastName     String
+  gender       Gender
+  appointments AppointmentEntity[]
 }
 
 model AppointmentEntity {
@@ -91,10 +89,6 @@ model AppointmentEntity {
 
 model MedicalRecordEntity {
   id            Int                @id @default(autoincrement())
-  patientId     Int
-  patient       PatientEntity      @relation(fields: [patientId], references: [id])
-  doctorId      Int
-  doctor        DoctorEntity       @relation(fields: [doctorId], references: [id])
   appointmentId Int                @unique
   appointment   AppointmentEntity  @relation(fields: [appointmentId], references: [id])
   diagnosis     String

@@ -15,15 +15,11 @@ export class CreateMedicalRecordCommandHandler
     private readonly eventBus: EventPublisher,
   ) {}
   async execute({
-    doctorId,
-    patientId,
     appointmentId,
     diagnosis,
     medications,
   }: CreateMedicalRecordCommand): Promise<any> {
     const medicalRecord = MedicalRecord.create({
-      doctorId,
-      patientId,
       appointmentId,
       diagnosis,
       medications,

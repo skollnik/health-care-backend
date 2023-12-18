@@ -19,23 +19,12 @@ export class MedicalRecordController {
   @Post()
   async newMedicalRecord(
     @Body()
-    {
-      doctorId,
-      patientId,
-      appointmentId,
-      diagnosis,
-      medications,
-    }: NewMedicalRecordDto,
+    { appointmentId, diagnosis, medications }: NewMedicalRecordDto,
   ) {
     const medicalRecord = await this.commandBus.execute(
-      new CreateMedicalRecordCommand(
-        doctorId,
-        patientId,
-        appointmentId,
-        diagnosis,
-        medications,
-      ),
+      new CreateMedicalRecordCommand(appointmentId, diagnosis, medications),
     );
+
     return new MedicalRecordCreatedPresenter(medicalRecord);
   }
 

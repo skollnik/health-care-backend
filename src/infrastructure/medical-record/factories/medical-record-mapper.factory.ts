@@ -1,5 +1,6 @@
-import { MedicalRecordEntity } from '@prisma/client';
+import { MedicalRecordEntity, MedicationEntity } from '@prisma/client';
 import { MedicalRecord } from 'src/domain/medical-record/model/medical-record';
+import { Medication } from 'src/domain/medication/model/medication';
 import { IEntityMapperFactory } from 'src/infrastructure/shared/factories/entity-mapper-factory.interface';
 
 export class MedicalRecordMapperFactory
@@ -7,17 +8,27 @@ export class MedicalRecordMapperFactory
 {
   fromEntity({
     id,
-    doctorId,
-    patientId,
     appointmentId,
     diagnosis,
-  }: MedicalRecordEntity): MedicalRecord {
+    medications,
+  }: MedicalRecordEntity & {
+    medications?: MedicationEntity[];
+  }): MedicalRecord {
+    const medicationsMapped = medications
+      ? medications.map((medication) =>
+          Medication.create({
+            id: medication.id,
+            name: medication.name,
+            description: medication.description,
+          }),
+        )
+      : [];
+
     return MedicalRecord.create({
       id,
-      doctorId,
-      patientId,
       appointmentId,
       diagnosis,
+      medications: medicationsMapped,
     });
   }
 }

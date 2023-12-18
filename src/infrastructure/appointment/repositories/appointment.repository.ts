@@ -57,7 +57,9 @@ export class AppointmentRepository implements IAppointmentRepository {
       include: {
         doctor: true,
         patient: true,
+        medicalRecord: { include: { medications: true } },
       },
+      orderBy: { date: 'desc' },
     });
 
     return appointments.map((appointment) =>
@@ -68,7 +70,11 @@ export class AppointmentRepository implements IAppointmentRepository {
   async findAllByDoctorId(doctorId: number): Promise<Appointment[]> {
     const appointments = await this.prisma.appointmentEntity.findMany({
       where: { doctorId },
-      include: { doctor: true, patient: true },
+      include: {
+        doctor: true,
+        patient: true,
+        medicalRecord: { include: { medications: true } },
+      },
       orderBy: { date: 'desc' },
     });
 
@@ -80,7 +86,11 @@ export class AppointmentRepository implements IAppointmentRepository {
   async findAllByPatientId(patientId: number): Promise<Appointment[]> {
     const appointments = await this.prisma.appointmentEntity.findMany({
       where: { patientId },
-      include: { doctor: true, patient: true },
+      include: {
+        doctor: true,
+        patient: true,
+        medicalRecord: { include: { medications: true } },
+      },
       orderBy: { date: 'desc' },
     });
 

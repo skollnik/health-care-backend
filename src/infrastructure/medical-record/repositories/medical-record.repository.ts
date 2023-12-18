@@ -12,22 +12,21 @@ export class MedicalRecordRepository implements IMedicalRecordRepository {
   ) {}
 
   async create({
-    doctorId,
-    patientId,
     appointmentId,
     diagnosis,
     medications,
   }: MedicalRecord): Promise<MedicalRecord> {
     const saved = await this.prisma.medicalRecordEntity.create({
       data: {
-        doctorId,
-        patientId,
         appointmentId,
         diagnosis,
-        medications: { create: medications },
+        medications: {
+          connect: medications.map((medication) => ({ id: medication.id })),
+        },
       },
+      include: { medications: true },
     });
-    
+
     return this.mapperFactory.fromEntity(saved);
   }
 
