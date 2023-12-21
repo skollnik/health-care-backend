@@ -14,8 +14,9 @@ export class DoctorRepository implements IDoctorRepository {
   async findById(id: number): Promise<Doctor> {
     const doctor = await this.prisma.doctorEntity.findUnique({
       where: { id },
+      include: { user: true },
     });
-    
+
     return this.doctorMapperFactory.fromEntity(doctor);
   }
 

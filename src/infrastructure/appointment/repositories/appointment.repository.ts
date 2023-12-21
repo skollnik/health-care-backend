@@ -46,6 +46,7 @@ export class AppointmentRepository implements IAppointmentRepository {
   async findById(appointmentId: number): Promise<Appointment> {
     const appointmentEntity = await this.prisma.appointmentEntity.findUnique({
       where: { id: appointmentId },
+      include: { doctor: true, patient: true },
     });
     if (!appointmentEntity) return null;
 
@@ -59,7 +60,7 @@ export class AppointmentRepository implements IAppointmentRepository {
         patient: true,
         medicalRecord: { include: { medications: true } },
       },
-      orderBy: { date: 'desc' },
+      orderBy: { id: 'desc' },
     });
 
     return appointments.map((appointment) =>
@@ -75,7 +76,7 @@ export class AppointmentRepository implements IAppointmentRepository {
         patient: true,
         medicalRecord: { include: { medications: true } },
       },
-      orderBy: { date: 'desc' },
+      orderBy: { id: 'desc' },
     });
 
     return appointments.map((appointment) =>
@@ -91,7 +92,7 @@ export class AppointmentRepository implements IAppointmentRepository {
         patient: true,
         medicalRecord: { include: { medications: true } },
       },
-      orderBy: { date: 'desc' },
+      orderBy: { id: 'desc' },
     });
 
     return appointments.map((appointment) =>

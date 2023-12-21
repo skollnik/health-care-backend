@@ -1,9 +1,15 @@
 import { Inject } from '@nestjs/common';
-import { CommandHandler, EventPublisher, ICommandHandler } from '@nestjs/cqrs';
+import {
+  CommandHandler,
+  EventBus,
+  EventPublisher,
+  ICommandHandler,
+} from '@nestjs/cqrs';
 import { MedicalRecord } from 'src/domain/medical-record/model/medical-record';
 import { IMedicalRecordRepository } from 'src/domain/medical-record/interfaces/medical-record-repository.interface';
 import { CreateMedicalRecordCommand } from './create-medical-record.command';
 import { MEDICALRECORD_REPOSITORY } from '../../medical-record.constants';
+import { MedicalRecordCreatedEvent } from 'src/domain/medical-record/events/medical-record-created.event';
 
 @CommandHandler(CreateMedicalRecordCommand)
 export class CreateMedicalRecordCommandHandler
@@ -13,6 +19,7 @@ export class CreateMedicalRecordCommandHandler
     @Inject(MEDICALRECORD_REPOSITORY)
     private readonly medicalRecordRepository: IMedicalRecordRepository,
     private readonly eventBus: EventPublisher,
+    private readonly eventPublisher: EventBus,
   ) {}
   async execute({
     appointmentId,
@@ -27,7 +34,12 @@ export class CreateMedicalRecordCommandHandler
     const createdMedicalRecord = this.eventBus.mergeObjectContext(
       await this.medicalRecordRepository.create(medicalRecord),
     );
+
     createdMedicalRecord.commit();
+    this.eventPublisher.publish(
+      new MedicalRecordCreatedEvent(medicalRecord, appointmentId),
+    );
+
     return createdMedicalRecord;
   }
 }

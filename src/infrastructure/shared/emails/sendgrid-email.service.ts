@@ -28,6 +28,33 @@ export class SendgridEmailService implements IEmailService {
     await this.sendEmail(content);
   }
 
+  async sendNewAppointmentMail(email: string) {
+    const content: EmailContent = {
+      text: 'You have new appointment!',
+      subject: 'New Appointment!',
+      to: email,
+    };
+    await this.sendEmail(content);
+  }
+
+  async sendAppointmentUpdatedMail(email: string) {
+    const content: EmailContent = {
+      text: 'Neki tekst',
+      subject: 'Appointment updated!',
+      to: email,
+    };
+    await this.sendEmail(content);
+  }
+
+  async sendMedicalRecordCreatedMail(email: string) {
+    const content: EmailContent = {
+      text: 'Medical Record created!',
+      subject: 'Medical Record created!',
+      to: email,
+    };
+    await this.sendEmail(content);
+  }
+
   private async sendEmail({ text, subject, to, html }: EmailContent) {
     const from = this.configService.get(SENDGRID_SENDER);
     const content: sendgrid.MailDataRequired = {

@@ -7,4 +7,7 @@ export type EmailContent = {
 
 export interface IEmailService {
   sendAccountCreatedMail(email: string);
+  sendNewAppointmentMail(email: string);
+  sendAppointmentUpdatedMail(email: string);
+  sendMedicalRecordCreatedMail(email: string);
 }
