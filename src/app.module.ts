@@ -7,6 +7,7 @@ import { MedicationModule } from './infrastructure/medication/medication.module'
 import { MedicalRecordModule } from './infrastructure/medical-record/medical-record.module';
 import { SpecializationModule } from './infrastructure/specialization/specialization.module';
 import { WebSocketModule } from './infrastructure/sockets/websocket.module';
+import { PostModule } from './infrastructure/post/post.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { WebSocketModule } from './infrastructure/sockets/websocket.module';
     AppointmentModule,
     MedicationModule,
     MedicalRecordModule,
+    PostModule,
     WebSocketModule,
   ],
   controllers: [],

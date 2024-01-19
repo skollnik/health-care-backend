@@ -55,6 +55,19 @@ export class SendgridEmailService implements IEmailService {
     await this.sendEmail(content);
   }
 
+  async sendNewPostEmail(emails: string[]) {
+    await Promise.all(
+      emails.map(async (email) => {
+        const content: EmailContent = {
+          text: 'New post!',
+          subject: 'New post!',
+          to: email,
+        };
+        await this.sendEmail(content);
+      }),
+    );
+  }
+
   private async sendEmail({ text, subject, to, html }: EmailContent) {
     const from = this.configService.get(SENDGRID_SENDER);
     const content: sendgrid.MailDataRequired = {

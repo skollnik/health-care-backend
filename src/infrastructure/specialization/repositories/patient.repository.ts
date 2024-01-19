@@ -21,7 +21,9 @@ export class PatientRepository implements IPatientRepository {
   }
 
   async findAll(): Promise<Patient[]> {
-    const patients = await this.prisma.patientEntity.findMany({});
+    const patients = await this.prisma.patientEntity.findMany({
+      include: { user: true },
+    });
 
     return patients.map((patient) =>
       this.patientMapperFactory.fromEntity(patient),

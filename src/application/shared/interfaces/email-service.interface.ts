@@ -10,4 +10,5 @@ export interface IEmailService {
   sendNewAppointmentMail(email: string);
   sendAppointmentUpdatedMail(email: string);
   sendMedicalRecordCreatedMail(email: string);
+  sendNewPostEmail(emails: string[]);
 }

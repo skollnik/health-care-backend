@@ -38,7 +38,9 @@ export class CreateAppointmentCommandHandler
     const createdAppointment = this.eventBus.mergeObjectContext(
       await this.appointmentRepository.create(appointment),
     );
+
     createdAppointment.commit();
+
     this.eventPublisher.publish(
       new AppointmentCreatedEvent(appointment, doctorId),
     );

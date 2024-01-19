@@ -36,16 +36,12 @@ export class AppointmentUpdatedEventHandler
     const patient = await this.patientRepository.findById(
       appointmentObject.patientId,
     );
-    const doctor = await this.doctorRepository.findById(
-      appointmentObject.doctorId,
-    );
-    // await this.emailService.sendAppointmentUpdatedMail(patient.user.email );
+    
     this.eventEmitter.emit(
       'appointment.updated',
-      new AppointmentUpdatedPayload(
-        patient.userId,
-        appointmentObject,
-      ),
+      new AppointmentUpdatedPayload(patient.userId, appointmentObject),
     );
+
+    // await this.emailService.sendAppointmentUpdatedMail(patient.user.email );
   }
 }

@@ -15,9 +15,8 @@ import { AppointmentController } from './appointment.controller';
 import { AppointmentMapperFactory } from './factories/appointment-mapper.factory';
 import { AppointmentRepository } from './repositories/appointment.repository';
 import { AppointmentUpdatedEventHandler } from 'src/application/appointment/events/appointment-updated-event.handler';
-import { MedicalRecordCreatedEventHandler } from 'src/application/medical-record/events/medical-record-created-event.handler';
 
-const commandHandlers = [
+const commandHandlers: Provider[] = [
   CreateAppointmentCommandHandler,
   EditAppointmentCommandHandler,
 ];
@@ -31,7 +30,6 @@ const queries: Provider[] = [
 const events: Provider[] = [
   AppointmentCreatedEventHandler,
   AppointmentUpdatedEventHandler,
-  MedicalRecordCreatedEventHandler,
 ];
 
 const providers: Provider[] = [

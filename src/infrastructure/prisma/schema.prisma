@@ -63,6 +63,7 @@ model DoctorEntity {
   lastName     String
   specialty    DoctorSpecialty
   appointments AppointmentEntity[]
+  PostEntity   PostEntity[]
 }
 
 model PatientEntity {
@@ -100,4 +101,13 @@ model MedicationEntity {
   medicalRecords MedicalRecordEntity[]
   name           String
   description    String
+}
+
+model PostEntity {
+  id       Int           @id @default(autoincrement())
+  imgUrl   String
+  title    String
+  body     String        @db.LongText
+  doctorId Int?
+  doctor   DoctorEntity? @relation(fields: [doctorId], references: [id])
 }

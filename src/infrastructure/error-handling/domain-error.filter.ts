@@ -12,6 +12,7 @@ import { InvalidCredentialsException } from 'src/domain/auth/exceptions/invalid-
 import { UserDoesntExistException } from 'src/domain/auth/exceptions/user-doesnt-exist.exception';
 import { MedicationNotFoundException } from 'src/domain/medication/exceptions/medication-not-found.exception';
 import { NotAllowedToDeleteMedicationException } from 'src/domain/medication/exceptions/not-allowed-to-delete-medication.exception';
+import { InvalidFileTypeException } from 'src/domain/post/exceptions/invalid-file-type.exception';
 
 @Catch(BaseException)
 export class DomainErrorFilter implements ExceptionFilter<BaseException> {
@@ -37,6 +38,9 @@ export class DomainErrorFilter implements ExceptionFilter<BaseException> {
 
     if (exception instanceof AppointmentNotFoundException)
       return this.sendErrorResponse(resp, HttpStatus.NOT_FOUND, message);
+
+    if (exception instanceof InvalidFileTypeException)
+      return this.sendErrorResponse(resp, HttpStatus.BAD_REQUEST, message);
   }
 
   private sendErrorResponse(resp: Response, status: number, message: string) {
